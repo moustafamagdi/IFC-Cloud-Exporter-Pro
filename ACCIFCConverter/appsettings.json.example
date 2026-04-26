@@ -1,0 +1,16 @@
+{
+  "APS": {
+    "ClientId": "APS_CLIENT_ID",
+    "ClientSecret": "APS_CLIENT_SECRET",
+    "CallbackUrl": "http://localhost:5005/callback"
+  },
+  "Database": {
+    "ConnectionString": "Data Source=app.db"
+  },
+  "App": {
+    "DefaultOutputFolder": "C:\Exports",
+    "RetryCount": 3,
+    "Theme": "Dark",
+    "Language": "en-US"
+  }
+}
