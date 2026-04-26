@@ -1,0 +1,80 @@
+<Window x:Class="ACCIFCConverter.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ACC IFC Converter Pro" Height="780" Width="1250" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Background="#1F2937" Padding="20">
+            <TextBlock Text="ACC IFC Converter Pro" Foreground="White" FontWeight="Bold" FontSize="18" Margin="0,0,0,20"/>
+            <Button Content="Dashboard" Command="{Binding ShowDashboardCommand}" Margin="0,0,0,8"/>
+            <Button Content="Projects Browser" Command="{Binding ShowBrowserCommand}" Margin="0,0,0,8"/>
+            <Button Content="Export Queue" Command="{Binding ShowQueueCommand}" Margin="0,0,0,8"/>
+            <Button Content="History" Command="{Binding ShowHistoryCommand}" Margin="0,0,0,8"/>
+            <Button Content="Settings" Command="{Binding ShowSettingsCommand}" Margin="0,0,0,8"/>
+            <Button Content="About" Command="{Binding ShowAboutCommand}" Margin="0,0,0,8"/>
+        </StackPanel>
+
+        <DockPanel Grid.Column="1" Margin="16">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,12">
+                <Button Content="Login ACC" Command="{Binding LoginCommand}" Margin="0,0,8,0"/>
+                <Button Content="Logout" Command="{Binding LogoutCommand}" Margin="0,0,8,0"/>
+                <TextBlock Text="{Binding StatusText}" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <TabControl>
+                <TabItem Header="Dashboard">
+                    <TextBlock Text="Welcome to ACC IFC Converter Pro" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
+                </TabItem>
+                <TabItem Header="Projects Browser">
+                    <Grid Margin="8">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="2*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <TreeView ItemsSource="{Binding BrowserNodes}"/>
+                        <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                            <TextBlock Text="IFC Preset" FontWeight="Bold"/>
+                            <ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}"/>
+                            <TextBlock Margin="0,12,0,0" Text="Output Naming Template" FontWeight="Bold"/>
+                            <TextBox Text="{Binding NamingTemplate, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="Preview:" FontWeight="Bold" Margin="0,12,0,0"/>
+                            <TextBlock Text="{Binding OutputPreview}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Export Queue">
+                    <DataGrid ItemsSource="{Binding Jobs}" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Model" Binding="{Binding SourceFileName}"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+                            <DataGridTextColumn Header="Result" Binding="{Binding ResultUrl}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="History">
+                    <DataGrid ItemsSource="{Binding History}" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="File" Binding="{Binding FileName}"/>
+                            <DataGridTextColumn Header="Date" Binding="{Binding EndUtc}"/>
+                            <DataGridTextColumn Header="Result" Binding="{Binding Result}"/>
+                            <DataGridTextColumn Header="Output" Binding="{Binding OutputPath}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Settings">
+                    <StackPanel Margin="12">
+                        <TextBlock Text="APS Client ID"/><TextBox Text="{Binding Settings.ApsClientId}"/>
+                        <TextBlock Text="APS Client Secret" Margin="0,8,0,0"/><PasswordBox x:Name="ClientSecretBox"/>
+                        <TextBlock Text="Callback URL" Margin="0,8,0,0"/><TextBox Text="{Binding Settings.ApsCallbackUrl}"/>
+                        <TextBlock Text="Default Output Folder" Margin="0,8,0,0"/><TextBox Text="{Binding Settings.DefaultOutputFolder}"/>
+                        <Button Content="Save Settings" Command="{Binding SaveSettingsCommand}" Margin="0,12,0,0" Width="120"/>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="About">
+                    <TextBlock Text="ACC IFC Converter Pro v1.0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+    </Grid>
+</Window>
